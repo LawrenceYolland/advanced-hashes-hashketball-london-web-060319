@@ -118,7 +118,7 @@ def game_hash
 game_hash
 end
 
-
+# Build a method, num_points_scored that takes in an argument of a player's name and returns the number of points scored for that player.
 def num_points_scored(player)
   game_hash.each do |location, team_data|
     team_data.each do |attribute, data|
@@ -129,7 +129,7 @@ def num_points_scored(player)
         end
     end
   end
-
+# Build a method, shoe_size, that takes in an argument of a player's name and returns the shoe size for that player.
 def shoe_size(player)
   game_hash.each do |location, team_data|
     team_data.each do |attribute, data|
@@ -140,6 +140,7 @@ def shoe_size(player)
     end
   end
 
+# Build a method, team_colors, that takes in an argument of the team name and returns an array of that teams colors.
 def team_colors(team_name)
   game_hash.each do |location, team_data|
       if game_hash[location].values.include?(team_name)
@@ -152,6 +153,7 @@ def team_colors(team_name)
   end
 end
 
+# Build a method, team_names, that operates on the game hash to return an array of the team names.
 def team_names
   name_array = []
   game_hash.each do |location, team_data|
@@ -164,6 +166,7 @@ def team_names
   name_array
 end
 
+# Build a method, player_numbers, that takes in an argument of a team name and returns an array of the jersey number's for that team.
 def player_numbers(team_name)
   player_number_array = []
   game_hash.each do |location, team_data|
@@ -179,8 +182,8 @@ def player_numbers(team_name)
   end
   player_number_array
 end
-# player_numbers
 
+#  Build a method, player_stats, that takes in an argument of a player's name and returns a hash of that player's stats.
 def player_stats(player_name)
   statlist = nil
   game_hash.each do |location, team_data|
@@ -197,6 +200,7 @@ def player_stats(player_name)
   statlist
 end
 
+# Build a method, big_shoe_rebounds, that will return the number of rebounds associated with the player that has the largest shoe size.
 def big_shoe_rebounds
   big_shoe = 0
   rebounds = nil
