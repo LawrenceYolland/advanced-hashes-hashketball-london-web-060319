@@ -129,6 +129,7 @@ def num_points_scored(player)
         end
     end
   end
+
 # Build a method, shoe_size, that takes in an argument of a player's name and returns the shoe size for that player.
 def shoe_size(player)
   game_hash.each do |location, team_data|
@@ -154,34 +155,36 @@ def team_colors(team_name)
 end
 
 # Build a method, team_names, that operates on the game hash to return an array of the team names.
+# def team_names
+#   name_array = []
+#   game_hash.each do |location, team_data|
+#     team_data.each do |attribute, data|
+#       if attribute == :team_name
+#         name_array << data
+#       end
+#     end
+#   end
+#   name_array
+# end
 def team_names
-  name_array = []
-  game_hash.each do |location, team_data|
-    team_data.each do |attribute, data|
-      if attribute == :team_name
-        name_array << data
-      end
-    end
+  game_hash.collect do |location, team_data|
+    team_data[:team_name]
   end
-  name_array
 end
 
 # Build a method, player_numbers, that takes in an argument of a team name and returns an array of the jersey number's for that team.
-def player_numbers(team_name)
-  player_number_array = []
+def player_numbers(name)
+  array = []
   game_hash.each do |location, team_data|
-    if game_hash[location].values.include?(team_name)
-        team_data.each do |attribute, data|
-          if data.class == Hash
-            data.each do |player_name, player_stats|
-              player_number_array<< player_stats[:number]
-            end
-          end
+      if team_data[:team_name] == name
+        team_data[:players].each do |player_name, value|
+          array << value[:number]
         end
+      end
     end
-  end
-  player_number_array
+    array
 end
+
 
 #  Build a method, player_stats, that takes in an argument of a player's name and returns a hash of that player's stats.
 def player_stats(player_name)
@@ -220,22 +223,68 @@ def big_shoe_rebounds
   rebounds
 end
 
-# big_shoe_rebounds
 
-# player_stats
-# def good_practices
-#   game_hash.each do |location, team_data|
-#     #are you ABSOLUTELY SURE what 'location' and 'team data' are? use binding.pry to find out!
-#     # binding.pry
-#       team_data.each do |attribute, data|
-#         #are you ABSOLUTELY SURE what 'attribute' and 'team data' are? use binding.pry to find out!
-#         # binding.pry
-#
-#         #what is 'data' at each loop through out .each block? when will the following line of code work and when will it break?
-#         data.each do |data_item|
-#             # binding.pry
-#       end
-#     end
-#   end
-# end
-# good_practices
+###########
+def most_points_scored #return player with most points scored
+    biggest_score = 0
+    biggest_player = ""
+    game_hash.map do |location, team_data|
+        team_data[:players].map do |player, stats|
+            if stats[:points] > biggest_score
+                biggest_score = stats[:points]
+
+               biggest_player = player
+            end
+        end
+    end
+    return biggest_player
+end
+
+def winning_team #return team with most points
+    home_points = 0
+    away_points = 0
+    game_hash[:home][:players].map do |player, stats|
+        home_points += stats[:points]
+    end
+    game_hash[:away][:players].map do |player, stats|
+        away_points += stats[:points]
+    end
+
+    if home_points > away_points
+        return game_hash[:home][:team_name]
+    else
+        return game_hash[:away][:team_name]
+    end
+end
+
+def player_with_longest_name
+    longest_name_person = ""
+    longest_name_length = 0
+    game_hash.map do |location, team_data|
+        team_data[:players].map do |player, stats|
+            if player.length >= longest_name_length
+                longest_name_length = player.length
+                longest_name_person = player
+            end
+        end
+    end
+    return longest_name_person
+end
+
+#############################
+
+def long_name_steals_a_ton?
+  longest_name = player_with_longest_name
+  most_steals = nil
+  most_steals_player = ""
+  game_hash.collect do |location, team_data|
+    team_data[:players].collect do |player, stats|
+      if stats[:steals] > most_steals
+          most_steals = stats[:steals]
+          most_steals_player = player
+      end
+      if longest_name == most_steals_player
+      end
+    end
+  end
+end
